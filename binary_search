@@ -1,0 +1,76 @@
+#binary search - python
+
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, key):
+        """Insert a new node with the given key."""
+        if self.root is None:
+            self.root = Node(key)
+        else:
+            self._insert_recursive(self.root, key)
+
+    def _insert_recursive(self, current_node, key):
+        """Helper method to insert recursively."""
+        if key < current_node.key:
+            if current_node.left is None:
+                current_node.left = Node(key)
+            else:
+                self._insert_recursive(current_node.left, key)
+        else:
+            if current_node.right is None:
+                current_node.right = Node(key)
+            else:
+                self._insert_recursive(current_node.right, key)
+
+    def search(self, key):
+        """Search for a node with the given key."""
+        return self._search_recursive(self.root, key)
+
+    def _search_recursive(self, current_node, key):
+        """Helper method to search recursively."""
+        if current_node is None or current_node.key == key:
+            return current_node
+        if key < current_node.key:
+            return self._search_recursive(current_node.left, key)
+        else:
+            return self._search_recursive(current_node.right, key)
+
+    def inorder_traversal(self):
+        """Print the keys in in-order traversal."""
+        result = []
+        self._inorder_recursive(self.root, result)
+        return result
+
+    def _inorder_recursive(self, current_node, result):
+        """Helper method for in-order traversal."""
+        if current_node is not None:
+            self._inorder_recursive(current_node.left, result)
+            result.append(current_node.key)
+            self._inorder_recursive(current_node.right, result)
+
+# Creating and testing the Binary Search Tree
+bst = BinarySearchTree()
+bst.insert(50)
+bst.insert(30)
+bst.insert(70)
+bst.insert(20)
+bst.insert(40)
+bst.insert(60)
+bst.insert(80)
+
+# Performing In-order Traversal
+inorder_result = bst.inorder_traversal()
+
+# Searching for nodes
+search_40 = bst.search(40)
+search_100 = bst.search(100)
+
+inorder_result, search_40.key if search_40 else None, search_100.key if search_100 else None
